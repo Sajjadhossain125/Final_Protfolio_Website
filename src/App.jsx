@@ -28,12 +28,13 @@ function App() {
       {/* The main content container sits on top of the background */}
       <div className="relative z-10">
         {/* Header no longer needs routing props */}
+        <Header />
         
         <main className="p-8 md:p-16 lg:px-24">
           {/* Use Suspense to handle lazy-loaded routes */}
           <Suspense fallback={<div>Loading page...</div>}>
             <Routes>
-              <Route path="/" element={<HomePage  />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/education" element={<Education />} />
               <Route path="/projects" element={<ProjectPage />} />
               <Route path="/contact" element={<Contact />} />
