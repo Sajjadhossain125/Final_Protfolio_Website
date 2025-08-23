@@ -14,7 +14,6 @@ const HomePage = lazy(() => import('./components/sections/HomePage'));
 const Education = lazy(() => import('./page/Education'));
 const ProjectPage = lazy(() => import('./page/ProjectPage'));
 const Contact = lazy(() => import('./page/ContactPage'));
-const ResumeViewer = lazy(() => import('./page/ResumeViewer'));
 const Footer = lazy(() => import('./components/sections/Footer'));
 
 function App() {
@@ -29,13 +28,12 @@ function App() {
       {/* The main content container sits on top of the background */}
       <div className="relative z-10">
         {/* Header no longer needs routing props */}
-        <Header setShowResume={setShowResume} />
         
         <main className="p-8 md:p-16 lg:px-24">
           {/* Use Suspense to handle lazy-loaded routes */}
           <Suspense fallback={<div>Loading page...</div>}>
             <Routes>
-              <Route path="/" element={<HomePage setShowResume={setShowResume} />} />
+              <Route path="/" element={<HomePage  />} />
               <Route path="/education" element={<Education />} />
               <Route path="/projects" element={<ProjectPage />} />
               <Route path="/contact" element={<Contact />} />

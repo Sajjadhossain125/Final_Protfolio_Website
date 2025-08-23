@@ -181,15 +181,7 @@ const Header = ({ setShowResume }) => {
               {item.name}
             </NavLink>
           ))}
-          <button
-            onClick={() => {
-              setShowResume(true);
-              closeMobileMenu();
-            }}
-            className="text-lg font-medium py-3 px-4 rounded-lg text-gray-300 hover:bg-gray-800/50 hover:text-white transition-colors duration-300 text-left"
-          >
-            Resume
-          </button>
+          
         </nav>
       </div>
       
