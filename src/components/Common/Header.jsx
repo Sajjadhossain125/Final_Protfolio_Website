@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-const Header = ({ setShowResume }) => {
+const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const menuRef = useRef(null);
@@ -72,12 +72,7 @@ const Header = ({ setShowResume }) => {
               {item.name}
             </NavLink>
           ))}
-          <button
-            onClick={() => setShowResume(true)}
-            className="text-lg font-semibold tracking-wide text-gray-300 hover:text-yellow-400 transition-all duration-300"
-          >
-            Resume
-          </button>
+          
         </nav>
         
         {/* Desktop Search */}

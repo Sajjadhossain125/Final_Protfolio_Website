@@ -11,6 +11,7 @@ import MERNIcon from "../../assets/icons/MERN.png"
 import AIIcon from "../../assets/icons/chip.png" // Add your AI icon
 import WebAppIcon from "../../assets/icons/web.png" // Add your web app icon
 import DjangoIcon from "../../assets/icons/api.png" // Add your Django icon
+import ProfileImage from "../../assets/CEO.png"
 
 // Updated AnimatedPill component to handle both images and text
 const AnimatedPill = ({ icon, text, position, animationDelay, rotation }) => {
@@ -48,6 +49,7 @@ const AnimatedPill = ({ icon, text, position, animationDelay, rotation }) => {
 };
 
 // New component for the Resume section
+// New component for the Resume section
 const ResumeSection = ({ setShowResume }) => {
     return (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-6">
@@ -68,10 +70,10 @@ const ResumeSection = ({ setShowResume }) => {
                     <h2 className="text-2xl font-bold text-white text-center">My Resume</h2>
                 </div>
                 
-                {/* PDF viewer */}
+                {/* PDF viewer with Google Drive link */}
                 <div className="w-full h-[calc(95vh-140px)] overflow-auto">
                     <iframe
-                        src="/src/assets/resum/MdSajjadHossen.pdf"
+                        src="https://drive.google.com/file/d/1qk1H4Udm1mkRh4x_cfE08KOh2da0sTJV/preview"
                         className="w-full h-full"
                         title="Resume"
                     />
@@ -80,8 +82,10 @@ const ResumeSection = ({ setShowResume }) => {
                 {/* Download button */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
                     <a
-                        href="/src/assets/resum/MdSajjadHossen.pdf"
+                        href="https://drive.google.com/uc?export=download&id=1qk1H4Udm1mkRh4x_cfE08KOh2da0sTJV"
                         download="Md_Sajjad_Hossen_Resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-xl hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,6 +98,7 @@ const ResumeSection = ({ setShowResume }) => {
         </div>
     );
 };
+
 
 const HomePage = ({ setShowResume }) => {
     const [showAnimation, setShowAnimation] = useState(false);
@@ -219,7 +224,7 @@ const HomePage = ({ setShowResume }) => {
                                 {/* Enhanced Central Image */}
                                 <div className="relative z-10 group">
                                     <img
-                                        src="/src/assets/CEO.png"
+                                        src={ProfileImage}
                                         alt="MD Sajjad Hossen"
                                         className="rounded-full w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 object-cover border-4 border-yellow-400 shadow-2xl shadow-yellow-500/40 group-hover:shadow-yellow-400/60 transition-all duration-500 group-hover:scale-105"
                                         onError={(e) => {
