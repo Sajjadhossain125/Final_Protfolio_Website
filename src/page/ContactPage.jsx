@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,7 +11,10 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   
+  const form = useRef();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -31,8 +35,15 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    // EmailJS configuration
+    emailjs.sendForm(
+      'service_koxz71f',    // Replace with your EmailJS service ID
+      'template_eeefp12',   // Replace with your EmailJS template ID
+      form.current,
+      'FyN0ARwp1-b_-zUWi'     // Replace with your EmailJS public key
+    )
+    .then((result) => {
+      console.log('Email sent successfully:', result.text);
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setFormData({
@@ -46,7 +57,17 @@ const Contact = () => {
       setTimeout(() => {
         setSubmitSuccess(false);
       }, 5000);
-    }, 1500);
+    })
+    .catch((error) => {
+      console.error('Error sending email:', error.text);
+      setIsSubmitting(false);
+      setSubmitError(true);
+      
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitError(false);
+      }, 5000);
+    });
   };
 
   const contactMethods = [
@@ -58,8 +79,8 @@ const Contact = () => {
         </svg>
       ),
       title: "Email",
-      value: "your.email@example.com",
-      link: "mailto:your.email@example.com"
+      value: "sajjadkhan1647315@gmail.com",
+      link: "mailto:sajjadkhan1647315@gmail.com"
     },
     {
       icon: (
@@ -68,7 +89,7 @@ const Contact = () => {
         </svg>
       ),
       title: "Phone",
-      value: "+1 (123) 456-7890",
+      value: "01624592483",
       link: "tel:+11234567890"
     },
     {
@@ -91,7 +112,7 @@ const Contact = () => {
           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
         </svg>
       ),
-      link: "https://github.com/yourusername"
+      link: "https://github.com/Sajjadhossain125"
     },
     {
       name: "LinkedIn",
@@ -100,7 +121,7 @@ const Contact = () => {
           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
         </svg>
       ),
-      link: "https://linkedin.com/in/yourusername"
+      link: "https://www.linkedin.com/in/sajjadhossen8254/"
     },
     {
       name: "Twitter",
@@ -114,7 +135,7 @@ const Contact = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-6 md:px-8 py-16 overflow-hidden mt-10 rounded-md font-inter"> {/* Added font-inter class */}
+    <section className="px-4 sm:px-6 md:px-8 py-16 overflow-hidden mt-10 rounded-md font-inter">
       {/* Glassmorphism background with animated gradient: from-gray-800/60 to-gray-900/60 */}
       <div className="absolute inset-0 border-t ">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjZmZmZmZmMjAiLz4KPC9zdmc+')] opacity-10"></div>
@@ -154,7 +175,18 @@ const Contact = () => {
               </div>
             ) : null}
             
-            <form onSubmit={handleSubmit}>
+            {submitError ? (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 mb-6">
+                <div className="flex items-center">
+                  <svg className="w-6 h-6 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <p className="text-red-400">Failed to send message. Please try again later.</p>
+                </div>
+              </div>
+            ) : null}
+            
+            <form ref={form} onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
                 <input
@@ -210,7 +242,6 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                // Main CTA button: from-yellow-400 to-yellow-500, hover: from-yellow-300 to-yellow-400
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
                   isSubmitting 
                     ? 'bg-yellow-600 cursor-not-allowed' 
@@ -257,11 +288,10 @@ const Contact = () => {
             </div>
             
             {/* Embedded Map */}
-            {/* Added pulsating border to map container */}
             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-xl rounded-xl border border-gray-700/50 p-8">
               <h3 className="text-2xl font-bold text-white mb-6">Find Me Here</h3>
               
-              <div className="relative rounded-lg overflow-hidden border border-gray-700/50 animate-map-glow"> {/* Added animate-map-glow */}
+              <div className="relative rounded-lg overflow-hidden border border-gray-700/50 animate-map-glow">
                 <iframe 
                   src="https://maps.google.com/maps?q=Badda,%20Dhaka&t=&z=13&ie=UTF8&iwloc=&output=embed" 
                   width="100%" 
@@ -301,7 +331,6 @@ const Contact = () => {
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    // Social link hover: from-yellow-400/0 to-yellow-400/20
                     className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r from-yellow-400/0 to-yellow-400/20 hover:text-yellow-400 transition-colors"
                     aria-label={social.name}
                   >
@@ -340,7 +369,7 @@ const Contact = () => {
         /* Inter font import */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         .font-inter {
-          font-family: 'Inter', sans-serif;
+          family: 'Inter', sans-serif;
         }
       `}</style>
     </section>
